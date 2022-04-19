@@ -74,7 +74,6 @@ data class GeneralBean(
     var bulletsfired: Int? = null,
     var timeplayed: Int? = null,
     var headshots: Int? = null,
-    var distancetravelled: Int? = null,
     var barricadedeployed: Int? = null,
     var reinforcementdeploy: Int? = null,
     var suicide: Int? = null,

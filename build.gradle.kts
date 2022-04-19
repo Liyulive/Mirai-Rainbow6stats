@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "cf.liyu"
-version = "0.0.2"
+version = "0.0.3"
 
 dependencies {
     api("net.mamoe:chat-command:0.5.1")
