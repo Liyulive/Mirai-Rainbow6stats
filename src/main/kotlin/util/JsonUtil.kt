@@ -1,26 +1,32 @@
 package cf.liyu.util
 
 import cf.liyu.bean.R6Bean
+import cf.liyu.config.PreviewDescConfig
 
 class JsonUtil {
     fun fuckDataFromId(data: R6Bean): String {
         val struilder = StringBuilder()
-        struilder.appendLine("玩家昵称：" + data.payload.user.nickname)
-        struilder.append("曾用名：")
+        struilder.appendLine("${PreviewDescConfig.nickname}：" + data.payload.user.nickname)
+        struilder.append("${PreviewDescConfig.used_name}：")
         data.payload.user.aliases.forEach {
             struilder.append(it.nickname + " ")
         }
-        struilder.appendLine("\n总排位K/D：${data.payload.preview[0].value}")
-        struilder.appendLine("游戏时间：${data.payload.preview[1].value}")
-        struilder.appendLine("等级：${data.payload.preview[2].value}")
-        struilder.appendLine("隐藏分：${data.payload.stats.seasonal.casual.mmr.toInt()} - ${getRank(data.payload.stats.seasonal.casual.mmr.toInt())}")
-        struilder.appendLine("排位等级：${data.payload.stats.seasonal.ranked.mmr.toInt()} - ${getRank(data.payload.stats.seasonal.ranked.mmr.toInt())}")
-        struilder.append("最高排位等级：${data.payload.stats.seasonal.ranked.max_mmr.toInt()} - ${getRank(data.payload.stats.seasonal.ranked.max_mmr.toInt())}")
+        struilder.appendLine("\n${PreviewDescConfig.rankKD}：${data.payload.preview[0].value}")
+        struilder.appendLine("${PreviewDescConfig.playtime}：${data.payload.preview[1].value}")
+        struilder.appendLine("${PreviewDescConfig.level}：${data.payload.preview[2].value}")
+        struilder.appendLine("${PreviewDescConfig.casual_mmr}：${data.payload.stats.seasonal.casual.mmr.toInt()} - ${getRank(data.payload.stats.seasonal.casual.mmr.toInt())}")
+        struilder.appendLine("${PreviewDescConfig.rank_mmr}：${data.payload.stats.seasonal.ranked.mmr.toInt()} - ${getRank(data.payload.stats.seasonal.ranked.mmr.toInt())}")
+        struilder.appendLine("${PreviewDescConfig.max_rank_mmr}：${data.payload.stats.seasonal.ranked.max_mmr.toInt()} - ${getRank(data.payload.stats.seasonal.ranked.max_mmr.toInt())}")
+        val opList = data.payload.stats.operators.sortedByDescending { it.roundsplayed }
+        struilder.appendLine("${PreviewDescConfig.operator}：${opList[0].id}、${opList[1].id}、${opList[2].id}")
+        val weaponList = data.payload.stats.weaponDetails.sortedByDescending { it.kills }
+        struilder.append("${PreviewDescConfig.weapon}：${weaponList[0].name}、${weaponList[1].name}、${weaponList[2].name}")
         return struilder.toString()
     }
 
     fun getRank(mmr: Int) = when (mmr) {
-        in 0..1199 -> "紫铜5"
+        0 -> "未排位"
+        in 1..1199 -> "紫铜5"
         in 1200..1299 -> "紫铜4"
         in 1300..1399 -> "紫铜3"
         in 1400..1499 -> "紫铜2"

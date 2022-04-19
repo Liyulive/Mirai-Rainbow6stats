@@ -4,11 +4,13 @@ import cf.liyu.Rainbow6stats
 import cf.liyu.bean.R6Bean
 import cf.liyu.config.CommandConfig
 import cf.liyu.config.Config
+import cf.liyu.config.PreviewDescConfig
 import cf.liyu.util.JsonUtil
 import cf.liyu.util.RequestUtil
 import com.google.gson.Gson
 import net.mamoe.mirai.console.command.CommandSender
 import net.mamoe.mirai.console.command.CompositeCommand
+import net.mamoe.mirai.console.plugins.chat.command.PluginMain.reload
 
 object R6stats : CompositeCommand(
     Rainbow6stats,
@@ -38,7 +40,16 @@ object R6stats : CompositeCommand(
     suspend fun CommandSender.help() {
         sendMessage(
             "/r6stats id [昵称] | 玩家数据速览\n" +
-                    "/r6stats help | （没什么意义的）帮助"
+                    "/r6stats reload | 重新加载配置文件" +
+                    "/r6stats help | 帮助"
         )
+    }
+
+    @SubCommand("reload")
+    suspend fun CommandSender.reload() {
+        CommandConfig.reload()
+        Config.reload()
+        PreviewDescConfig.reload()
+        sendMessage("已重新加载配置文件")
     }
 }

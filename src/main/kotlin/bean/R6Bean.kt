@@ -31,7 +31,9 @@ data class PreviewBean(
 
 data class StatsBean(
     val seasonal: SeasonalBean,
-    val general: GeneralBean
+    val general: GeneralBean,
+    val operators: List<OperatorsStatsBean>,
+    val weaponDetails: List<WeaponDetailsBean>
 )
 
 data class SeasonalBean(
@@ -81,5 +83,31 @@ data class GeneralBean(
     var dbnoassists: Int? = null,
     var gadgetdestroy: Int? = null,
     var blindkills: Int? = null
+)
+
+data class OperatorsStatsBean(
+    var id: String? = null,
+    var kills: Int? = null,
+    var deaths: Int? = null,
+    var headshots: Int? = null,
+    var meleekills: Int? = null,
+    var dbno: Int? = null,
+    var wins: Int? = null,
+    var losses: Int? = null,
+    var roundsplayed: Int? = null,
+    var timeplayed: Int? = null,
+    var totalxp: Int? = null
+)
+
+data class WeaponDetailsBean(
+
+    var key: String? = null,
+    var name: String? = null,
+    var fired: Int? = null,
+    var hits: Int? = null,
+    var headshots: Int? = null,
+    var kills: Int? = null,
+    var deaths: Int? = null
+
 )
 
