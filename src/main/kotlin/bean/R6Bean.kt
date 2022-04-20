@@ -32,6 +32,7 @@ data class PreviewBean(
 data class StatsBean(
     val seasonal: SeasonalBean,
     val general: GeneralBean,
+    val ranked: StatsRankdBean,
     val operators: List<OperatorsStatsBean>,
     val weaponDetails: List<WeaponDetailsBean>
 )
@@ -83,6 +84,15 @@ data class GeneralBean(
     var dbnoassists: Int? = null,
     var gadgetdestroy: Int? = null,
     var blindkills: Int? = null
+)
+
+data class StatsRankdBean(
+    val kills: Int,
+    val deaths: Int,
+    val wins: Int,
+    val losses: Int,
+    val matchesplayed: Int,
+    val timeplayed: Int
 )
 
 data class OperatorsStatsBean(

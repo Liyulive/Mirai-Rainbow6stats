@@ -10,6 +10,7 @@ import cf.liyu.util.RequestUtil
 import com.google.gson.Gson
 import net.mamoe.mirai.console.command.CommandSender
 import net.mamoe.mirai.console.command.CompositeCommand
+import net.mamoe.mirai.console.data.PluginData
 import net.mamoe.mirai.console.plugins.chat.command.PluginMain.reload
 
 object R6stats : CompositeCommand(
@@ -40,16 +41,15 @@ object R6stats : CompositeCommand(
     suspend fun CommandSender.help() {
         sendMessage(
             "/r6stats id [昵称] | 玩家数据速览\n" +
-                    "/r6stats reload | 重新加载配置文件" +
                     "/r6stats help | 帮助"
         )
     }
 
-    @SubCommand("reload")
-    suspend fun CommandSender.reload() {
-        CommandConfig.reload()
-        Config.reload()
-        PreviewDescConfig.reload()
-        sendMessage("已重新加载配置文件")
-    }
+//    @SubCommand("reload")
+//    suspend fun CommandSender.reload() {
+//        CommandConfig.reload()
+//        Config.reload()
+//        PreviewDescConfig.reload()
+//        sendMessage("已重新加载配置文件")
+//    }
 }
