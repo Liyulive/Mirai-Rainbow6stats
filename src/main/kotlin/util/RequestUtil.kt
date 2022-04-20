@@ -13,7 +13,7 @@ class RequestUtil {
             val req =
                 Request.Builder().url("https://api.statsdb.net/r6/pc/player/${id}")
                     .method("GET", null)
-                    .header("X-Authorization", "Basic MTczMDMyNzc4ODc0MjU3Mjo4ZmQ1MWJmMzNkYTIxZjk5ZjhlM2ExNTc4YmQyNzhhYg==")
+                    .header("X-Authorization", apiAuth)
                     .build()
             val call = client.newCall(req)
             call.enqueue(object : Callback {
