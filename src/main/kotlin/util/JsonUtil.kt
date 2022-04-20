@@ -11,9 +11,19 @@ class JsonUtil {
         data.payload.user.aliases.forEach {
             struilder.append(it.nickname + " ")
         }
-        struilder.appendLine("\n${PreviewDescConfig.rankKD}：${data.payload.preview[0].value}")
+        struilder.appendLine("\n${PreviewDescConfig.level}：${data.payload.preview[2].value}")
         struilder.appendLine("${PreviewDescConfig.playtime}：${data.payload.preview[1].value}")
-        struilder.appendLine("${PreviewDescConfig.level}：${data.payload.preview[2].value}")
+        val kd = data.payload.stats.general.kills?.toDouble()?.div(data.payload.stats.general.deaths!!.toDouble())
+        struilder.appendLine("${PreviewDescConfig.KD}：${"%.2f".format(kd)}")
+        val win = data.payload.stats.general.losses?.plus(data.payload.stats.general.wins!!)?.let {
+            data.payload.stats.general.wins?.toDouble()
+                ?.div(it.toDouble())
+        }?.times(100)
+        struilder.appendLine("${PreviewDescConfig.win}：${"%.2f".format(win)}%")
+        struilder.appendLine("${PreviewDescConfig.rankKD}：${data.payload.preview[0].value}")
+        val rankWin = data.payload.stats.ranked.wins.toDouble()
+            .div((data.payload.stats.ranked.wins + data.payload.stats.ranked.losses).toDouble()).times(100)
+        struilder.appendLine("${PreviewDescConfig.rankWin}：${"%.2f".format(rankWin)}%")
         struilder.appendLine("${PreviewDescConfig.casual_mmr}：${data.payload.stats.seasonal.casual.mmr.toInt()} - ${getRank(data.payload.stats.seasonal.casual.mmr.toInt())}")
         struilder.appendLine("${PreviewDescConfig.rank_mmr}：${data.payload.stats.seasonal.ranked.mmr.toInt()} - ${getRank(data.payload.stats.seasonal.ranked.mmr.toInt())}")
         struilder.appendLine("${PreviewDescConfig.max_rank_mmr}：${data.payload.stats.seasonal.ranked.max_mmr.toInt()} - ${getRank(data.payload.stats.seasonal.ranked.max_mmr.toInt())}")
@@ -24,7 +34,7 @@ class JsonUtil {
         return struilder.toString()
     }
 
-    fun getRank(mmr: Int) = when (mmr) {
+    private fun getRank(mmr: Int) = when (mmr) {
         0 -> "未排位"
         in 1..1199 -> "紫铜5"
         in 1200..1299 -> "紫铜4"

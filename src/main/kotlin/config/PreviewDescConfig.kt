@@ -12,8 +12,17 @@ object PreviewDescConfig : AutoSavePluginConfig("PreviewDescConfig") {
     @ValueDescription("曾用名：")
     val used_name: String by value<String>("曾用名")
 
+    @ValueDescription("生涯KD：")
+    val KD: String by value<String>("生涯K/D")
+
+    @ValueDescription("生涯胜率：")
+    val win: String by value<String>("生涯胜率")
+
     @ValueDescription("生涯排位KD：")
-    val rankKD: String by value<String>("总排位KD")
+    val rankKD: String by value<String>("排位生涯K/D")
+
+    @ValueDescription("生涯排位KD：")
+    val rankWin: String by value<String>("排位生涯胜率")
 
     @ValueDescription("游戏时长：")
     val playtime: String by value<String>("游戏时间")
