@@ -79,6 +79,7 @@ object R6stats : CompositeCommand(
     suspend fun CommandSender.help() {
         sendMessage(
             "/r6stats id [昵称] | 玩家数据速览\n" +
+                    "/r6stats his [昵称] | 历史排位数据" +
                     "/r6stats help | 帮助"
         )
     }
