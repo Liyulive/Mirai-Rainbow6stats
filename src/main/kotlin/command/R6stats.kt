@@ -3,6 +3,7 @@ package cf.liyu.command
 import cf.liyu.Rainbow6stats
 import cf.liyu.bean.HistorySeasonBean
 import cf.liyu.bean.R6Bean
+import cf.liyu.command.R6stats.id
 import cf.liyu.config.CommandConfig
 import cf.liyu.util.JsonUtil
 import cf.liyu.util.RequestUtil
@@ -23,42 +24,51 @@ object R6stats : CompositeCommand(
     suspend fun CommandSender.id(id: String) {
         try {
             val res = RequestUtil().request(id)
-            val result = Gson().fromJson(res, R6Bean::class.java)
-            when (result.message) {
-                "OK" -> {
-                    val msg = JsonUtil().fuckDataFromId(result)
-                    sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + msg)
-                }
-                "Not Found" -> sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "查无此人")
+            if (res == "error") {
+                sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "请求错误，请重试！")
+            } else {
+                val result = Gson().fromJson(res, R6Bean::class.java)
+                when (result.message) {
+                    "OK" -> {
+                        val msg = JsonUtil().fuckDataFromId(result)
+                        sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + msg)
+                    }
+                    "Not Found" -> sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "查无此人")
 
-                else -> sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "未知错误")
+                    else -> sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "未知错误")
+                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    @SubCommand("rank")
-    suspend fun CommandSender.rank(id: String) {
+    @SubCommand("his")
+    suspend fun CommandSender.his(id: String) {
         try {
             val res = RequestUtil().request(id)
-            val result = JsonParser().parse(res).asJsonObject
-            val mssg = result.get("message").asString
-            when (mssg) {
-                "OK" -> {
-                    val payload = result.get("payload").asJsonObject
-                    val stats = payload.get("stats").asJsonObject
-                    val history = stats.get("history").asJsonObject
-                    val rankList = ArrayList<HistorySeasonBean>()
-                    for (i in 6..100) {
-                        val rankStats = history.get(i.toString()) ?: break
-                        rankList.add(Gson().fromJson(rankStats, HistorySeasonBean::class.java))
+            if (res == "error") {
+                sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "请求错误，请重试！")
+            } else {
+                val result = JsonParser().parse(res).asJsonObject
+                val mssg = result.get("message").asString
+                when (mssg) {
+                    "OK" -> {
+                        val payload = result.get("payload").asJsonObject
+                        val stats = payload.get("stats").asJsonObject
+                        val history = stats.get("history").asJsonObject
+                        val rankList = ArrayList<HistorySeasonBean>()
+                        for (i in 6..100) {
+                            val rankStats = history.get(i.toString()) ?: break
+                            rankList.add(Gson().fromJson(rankStats, HistorySeasonBean::class.java))
+                        }
+                        val relist = rankList.reversed()
+                        val msg = JsonUtil().fuckDataFromHis(relist)
+                        sendMessage(msg)
                     }
-                    val relist = rankList.reversed()
-                    sendMessage(relist[0].emea.noMatchesPlayed.toString())
+                    "Not Found" -> sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "查无此人")
+                    else -> sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "未知错误")
                 }
-                "Not Found" -> sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "查无此人")
-                else -> sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "未知错误")
             }
         } catch (e: Exception) {
             e.printStackTrace()

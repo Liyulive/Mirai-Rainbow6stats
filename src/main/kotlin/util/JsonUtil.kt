@@ -1,6 +1,9 @@
 package cf.liyu.util
 
+import cf.liyu.bean.EmeaBean
+import cf.liyu.bean.HistorySeasonBean
 import cf.liyu.bean.R6Bean
+import cf.liyu.config.HistoryDesc
 import cf.liyu.config.PreviewDescConfig
 
 class JsonUtil {
@@ -34,11 +37,42 @@ class JsonUtil {
         return struilder.toString()
     }
 
-    fun fuckDataFromRank(data: R6Bean): String {
+    /*查询历史rank 优先显示亚太战绩*/
+    fun fuckDataFromHis(data: List<HistorySeasonBean>): String {
         val strBuilder = StringBuilder()
-        strBuilder.append(data.payload.stats.history[0].emea.noMatchesPlayed.toString())
-        
+        data.forEach {
+            if (it.apac == null) {
+                if (!it.emea.noMatchesPlayed) {
+                    strBuilder.appendLine(littleFuckRankData(it.emea))
+                }
+            } else {
+                if (!it.apac.noMatchesPlayed) {
+                    strBuilder.appendLine(littleFuckRankData(it.apac))
+                } else {
+                    if (!it.ncsa.noMatchesPlayed) {
+                        strBuilder.appendLine(littleFuckRankData(it.ncsa))
+                    } else if (!it.emea.noMatchesPlayed) {
+                        strBuilder.appendLine(littleFuckRankData(it.emea))
+                    }
+                }
+            }
+        }
+        strBuilder.append("=========")
         return strBuilder.toString()
+    }
+
+    /*处理各区数据*/
+    fun littleFuckRankData(emea: EmeaBean): String {
+        val builder = StringBuilder()
+        builder.appendLine("===${getSeason(emea.season)}===")
+        builder.appendLine(HistoryDesc.ranked + (emea.wins + emea.losses).toString())
+        builder.appendLine(HistoryDesc.mmr + getRank(emea.mmr) + " - ${emea.mmr}")
+        builder.appendLine(HistoryDesc.max_mmr + getRank(emea.max_mmr) + " - ${emea.max_mmr}")
+        val kd = emea.kills.toDouble().div(emea.deaths.toDouble())
+        builder.appendLine(HistoryDesc.kd + "%.2f".format(kd))
+        val win = emea.wins.toDouble().div((emea.wins + emea.losses).toDouble()) * 100
+        builder.append(HistoryDesc.win + "%.2f".format(win) + "%")
+        return builder.toString()
     }
 
     private fun getRank(mmr: Int) = when (mmr) {
@@ -68,5 +102,16 @@ class JsonUtil {
         in 4400..4699 -> "钻石2"
         in 4700..4999 -> "钻石1"
         else -> "冠军"
+    }
+
+    fun getSeason(season: Int): String {
+        var Yea = season / 4
+        var Sea = season % 4
+        if (Sea == 0) {
+            Sea = 4
+        } else {
+            Yea++
+        }
+        return "Y${Yea}S${Sea}"
     }
 }

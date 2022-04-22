@@ -19,12 +19,11 @@ class RequestUtil {
             val call = client.newCall(req)
             call.enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    continuation.resumeWithException(e)
+                    continuation.resume("error")
                 }
 
                 override fun onResponse(call: Call, response: Response) {
                     continuation.resume(response.body!!.string())
-
                 }
             })
         }
