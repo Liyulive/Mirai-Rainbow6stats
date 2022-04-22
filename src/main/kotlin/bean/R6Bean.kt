@@ -34,7 +34,8 @@ data class StatsBean(
     val general: GeneralBean,
     val ranked: StatsRankdBean,
     val operators: List<OperatorsStatsBean>,
-    val weaponDetails: List<WeaponDetailsBean>
+    val weaponDetails: List<WeaponDetailsBean>,
+    val history:List<HistorySeasonBean>
 )
 
 data class SeasonalBean(
@@ -121,3 +122,83 @@ data class WeaponDetailsBean(
 
 )
 
+data class HistorySeasonBean(
+    val emea: EmeaBean,
+    val ncsa: NcsaBean,
+    val apac: ApacBean
+)
+
+data class ApacBean(
+
+    val rank: Int,
+    val mmr: Int,
+    val skillStdev: Double,
+    val maxRank: Int,
+    val maxMmr: Int,
+    val season: Int,
+    val kills: Int,
+    val deaths: Int,
+    val wins: Int,
+    val losses: Int,
+    val abandons: Int,
+    val lastMatchMmrChange: Int,
+    val topRankPosition: Int,
+    val lastMatchSkillMeanChange: Double,
+    val lastMatchResult: Int,
+    val nextRankMmr: Int,
+    val previousRankMmr: Int,
+    val updateTime: Int,
+    val noMatchesPlayed: Boolean,
+    val banned: Boolean
+
+)
+
+data class EmeaBean(
+
+    val rank: Int,
+    val mmr: Int,
+    val skillStdev: Double,
+    val maxRank: Int,
+    val maxMmr: Int,
+    val season: Int,
+    val kills: Int,
+    val deaths: Int,
+    val wins: Int,
+    val losses: Int,
+    val abandons: Int,
+    val lastMatchMmrChange: Int,
+    val topRankPosition: Int,
+    val lastMatchSkillMeanChange: Double,
+    val lastMatchResult: Int,
+    val nextRankMmr: Int,
+    val previousRankMmr: Int,
+    val updateTime: Int,
+    val noMatchesPlayed: Boolean,
+    val banned: Boolean
+
+)
+
+data class NcsaBean(
+
+    val rank: Int,
+    val mmr: Int,
+    val skillStdev: Double,
+    val maxRank: Int,
+    val maxMmr: Int,
+    val season: Int,
+    val kills: Int,
+    val deaths: Int,
+    val wins: Int,
+    val losses: Int,
+    val abandons: Int,
+    val lastMatchMmrChange: Int,
+    val topRankPosition: Int,
+    val lastMatchSkillMeanChange: Double,
+    val lastMatchResult: Int,
+    val nextRankMmr: Int,
+    val previousRankMmr: Int,
+    val updateTime: Int,
+    val noMatchesPlayed: Boolean,
+    val banned: Boolean
+
+)

@@ -1,5 +1,6 @@
 package cf.liyu.util
 
+import cf.liyu.config.Config
 import okhttp3.*
 import java.io.IOException
 import kotlin.coroutines.resume
@@ -7,13 +8,13 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class RequestUtil {
-    suspend fun request(id: String, apiAuth: String): String {
+    suspend fun request(id: String): String {
         return suspendCoroutine { continuation ->
             val client = OkHttpClient()
             val req =
                 Request.Builder().url("https://api.statsdb.net/r6/pc/player/${id}")
                     .method("GET", null)
-                    .header("X-Authorization", apiAuth)
+                    .header("X-Authorization", Config.apiAuth)
                     .build()
             val call = client.newCall(req)
             call.enqueue(object : Callback {

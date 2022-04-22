@@ -34,6 +34,13 @@ class JsonUtil {
         return struilder.toString()
     }
 
+    fun fuckDataFromRank(data: R6Bean): String {
+        val strBuilder = StringBuilder()
+        strBuilder.append(data.payload.stats.history[0].emea.noMatchesPlayed.toString())
+        
+        return strBuilder.toString()
+    }
+
     private fun getRank(mmr: Int) = when (mmr) {
         0 -> "未排位"
         in 1..1199 -> "紫铜5"
