@@ -1,8 +1,12 @@
 package cf.liyu.util
 
 import cf.liyu.config.Config
+import cf.liyu.config.ProxyConfig
 import okhttp3.*
 import java.io.IOException
+import java.net.InetSocketAddress
+import java.net.Proxy
+import java.net.SocketAddress
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -10,7 +14,14 @@ import kotlin.coroutines.suspendCoroutine
 class RequestUtil {
     suspend fun request(id: String): String {
         return suspendCoroutine { continuation ->
-            val client = OkHttpClient()
+            val proxyConfig = ProxyConfig
+            val clientBuilder = OkHttpClient().newBuilder()
+            when (proxyConfig.type) {
+                "HTTP" -> clientBuilder.proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress(proxyConfig.ip, proxyConfig.port.toInt())))
+                "SOCKS" -> clientBuilder.proxy(Proxy(Proxy.Type.SOCKS, InetSocketAddress(proxyConfig.ip, proxyConfig.port.toInt())))
+                else -> println("DIRECT")
+            }
+            val client = clientBuilder.build()
             val req =
                 Request.Builder().url("https://api.statsdb.net/r6/pc/player/${id}")
                     .method("GET", null)
@@ -19,7 +30,7 @@ class RequestUtil {
             val call = client.newCall(req)
             call.enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    continuation.resume("error")
+                    continuation.resumeWithException(e)
                 }
 
                 override fun onResponse(call: Call, response: Response) {

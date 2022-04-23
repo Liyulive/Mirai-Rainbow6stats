@@ -34,8 +34,7 @@ data class StatsBean(
     val general: GeneralBean,
     val ranked: StatsRankdBean,
     val operators: List<OperatorsStatsBean>,
-    val weaponDetails: List<WeaponDetailsBean>,
-    val history:List<HistorySeasonBean>
+    val weaponDetails: List<WeaponDetailsBean>
 )
 
 data class SeasonalBean(

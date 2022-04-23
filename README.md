@@ -13,7 +13,7 @@
 
 /r6stats his [昵称] 历史排位数据
 
-/r6stats help 没什么用的帮助
+/r6stats help 帮助
 
 ## 获取API
 1. 在StatsDB创建好应用后进入 https://developers.statsdb.net/reference
@@ -30,6 +30,7 @@
 
 - [ ] 查询排位详情数据
 - [ ] 代理
+- [ ] 图片输出历史数据
 - [ ] ~
 - [x] 速览数据
 - [x] 历史排位数据
