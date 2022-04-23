@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "cf.liyu"
-version = "0.1.2"
+version = "0.1.3"
 
 dependencies {
     api("com.google.code.gson:gson:2.9.0")
