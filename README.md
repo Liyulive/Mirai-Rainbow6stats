@@ -9,11 +9,13 @@
 
 ## 命令
 
-/r6stats id [昵称] 速览数据
+/<r6s|r6stats> <id|preview> [昵称] - 玩家数据速览
 
-/r6stats his [昵称] 历史排位数据
+/<r6s|r6stats> <his|history> [昵称] - 历史排位数据
 
-/r6stats help 帮助
+/<r6s|r6stats> <sea|season> [昵称] - 本赛季数据
+
+/<r6s|r6stats> help - 帮助
 
 ## 获取API
 1. 在StatsDB创建好应用后进入 https://developers.statsdb.net/reference
@@ -32,6 +34,7 @@
 - [ ] 图片输出数据
 - [ ] ~
 - [x] 速览数据
+- [x] 本赛季数据
 - [x] 代理
 - [x] 历史排位数据
 
