@@ -22,9 +22,7 @@ class RequestUtil {
                 "SOCKS" -> clientBuilder.proxy(Proxy(Proxy.Type.SOCKS, InetSocketAddress(proxyConfig.ip, proxyConfig.port.toInt())))
                 else -> println("DIRECT")
             }
-            val client = clientBuilder.connectTimeout(7000, TimeUnit.MILLISECONDS)
-                .readTimeout(7000, TimeUnit.MILLISECONDS)
-                .build()
+            val client = clientBuilder.build()
             val req =
                 Request.Builder().url("https://api.statsdb.net/r6/pc/player/${id}")
                     .method("GET", null)

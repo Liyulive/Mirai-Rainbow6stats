@@ -21,7 +21,7 @@ object R6stats : CompositeCommand(
     secondaryNames = CommandConfig.r6stats
 ) {
 
-    @SubCommand("id")
+    @SubCommand("id", "preview")
     suspend fun CommandSender.id(id: String) {
         try {
             val res = RequestUtil().request(id)
@@ -46,8 +46,9 @@ object R6stats : CompositeCommand(
     }
 
     /*查询排位历史*/
-    @SubCommand("his")
+    @SubCommand("his", "history")
     suspend fun CommandSender.his(id: String) {
+
         try {
             val res = RequestUtil().request(id)
             val result = JsonParser().parse(res).asJsonObject
@@ -80,17 +81,38 @@ object R6stats : CompositeCommand(
         }
     }
 
-//    @SubCommand("rank")
-//    suspend fun CommandSender.rank() {
-//
-//    }
+
+    @SubCommand("sea", "seasonal")
+    suspend fun CommandSender.rank(id: String) {
+        try {
+            val res = RequestUtil().request(id)
+            val result = Gson().fromJson(res, R6Bean::class.java)
+            when (result.message) {
+                "OK" -> {
+                    val msg = JsonUtil().fuckDataFromSeason(result.payload.stats.seasonal)
+                    sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + msg)
+                }
+                "Not Found" -> sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "查无此人")
+                "Unauthorized" -> sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "API错误")
+                else -> sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "未知错误")
+            }
+
+        } catch (e: SocketTimeoutException) {
+            sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "连接超时，请重试")
+            e.printStackTrace()
+        } catch (e: Exception) {
+            bot?.getFriend(Config.master)?.sendMessage(e.toString())
+            e.printStackTrace()
+        }
+    }
 
     @SubCommand("help")
     suspend fun CommandSender.help() {
         sendMessage(
-            "/r6stats id [昵称] | 玩家数据速览\n" +
-                    "/r6stats his [昵称] | 历史排位数据" +
-                    "/r6stats help | 帮助"
+            "/<r6s|r6stats> <id|preview> [昵称] - 玩家数据速览\n" +
+                    "/<r6s|r6stats> <his|history> [昵称] - 历史排位数据\n" +
+                    "/<r6s|r6stats> <sea|season> [昵称] - 本赛季数据\n" +
+                    "/<r6s|r6stats> help - 帮助"
         )
     }
 

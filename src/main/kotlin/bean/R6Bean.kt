@@ -1,4 +1,6 @@
 package cf.liyu.bean
+import com.google.gson.annotations.SerializedName
+
 
 data class R6Bean(
     val code: Int,
@@ -43,25 +45,77 @@ data class SeasonalBean(
 )
 
 data class RankedBean(
-    val rank: Int,
-    val mmr: Double,
-    val max_mmr: Double,
-    val kills: Int,
+    @SerializedName("abandons")
+    val abandons: Int,
+    @SerializedName("banned")
+    val banned: Boolean,
+    @SerializedName("deaths")
     val deaths: Int,
-    val wins: Int,
+    @SerializedName("kills")
+    val kills: Int,
+    @SerializedName("last_match_mmr_change")
+    val lastMatchMmrChange: Int,
+    @SerializedName("last_match_result")
+    val lastMatchResult: Int,
+    @SerializedName("last_match_skill_mean_change")
+    val lastMatchSkillMeanChange: Double,
+    @SerializedName("losses")
     val losses: Int,
-    val last_match_mmr_change: Double,
-    val banned: Boolean
+    @SerializedName("max_mmr")
+    val maxMmr: Double,
+    @SerializedName("max_rank")
+    val maxRank: Int,
+    @SerializedName("mmr")
+    val mmr: Double,
+    @SerializedName("next_rank_mmr")
+    val nextRankMmr: Int,
+    @SerializedName("noMatchesPlayed")
+    val noMatchesPlayed: Boolean,
+    @SerializedName("previous_rank_mmr")
+    val previousRankMmr: Int,
+    @SerializedName("rank")
+    val rank: Int,
+    @SerializedName("season")
+    val season: Int,
+    @SerializedName("skill_stdev")
+    val skillStdev: Double,
+    @SerializedName("top_rank_position")
+    val topRankPosition: Int,
+    @SerializedName("update_time")
+    val updateTime: Long,
+    @SerializedName("wins")
+    val wins: Int
 )
 
 data class CasualBean(
-    val mmr: Double,
-    val kills: Int,
-    val deaths: Int,
-    val wins: Int,
-    val losses: Int,
+    @SerializedName("abandons")
     val abandons: Int,
-    val last_match_mmr_change: Double,
+    @SerializedName("banned")
+    val banned: Boolean,
+    @SerializedName("deaths")
+    val deaths: Int,
+    @SerializedName("kills")
+    val kills: Int,
+    @SerializedName("last_match_mmr_change")
+    val lastMatchMmrChange: Int,
+    @SerializedName("last_match_result")
+    val lastMatchResult: Int,
+    @SerializedName("last_match_skill_mean_change")
+    val lastMatchSkillMeanChange: Double,
+    @SerializedName("losses")
+    val losses: Int,
+    @SerializedName("mmr")
+    val mmr: Double,
+    @SerializedName("noMatchesPlayed")
+    val noMatchesPlayed: Boolean,
+    @SerializedName("rank")
+    val rank: Int,
+    @SerializedName("season")
+    val season: Int,
+    @SerializedName("update_time")
+    val updateTime: Long,
+    @SerializedName("wins")
+    val wins: Int
 )
 
 data class GeneralBean(
@@ -130,10 +184,10 @@ data class HistorySeasonBean(
 data class EmeaBean(
 
     val rank: Int,
-    val mmr: Int,
+    val mmr: Double,
     val skillStdev: Double,
     val maxRank: Int,
-    val max_mmr: Int,
+    val max_mmr: Double,
     val season: Int,
     val kills: Int,
     val deaths: Int,

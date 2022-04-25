@@ -7,6 +7,6 @@ import net.mamoe.mirai.console.data.value
 object CommandConfig : AutoSavePluginConfig("CommandConfig") {
 
     @ValueDescription("命令别名")
-    val r6stats: Array<String> by value(arrayOf("彩六战绩"))
+    val r6stats: Array<String> by value(arrayOf("r6s"))
 
 }
