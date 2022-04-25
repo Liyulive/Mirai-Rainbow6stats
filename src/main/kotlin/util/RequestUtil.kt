@@ -7,6 +7,7 @@ import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Proxy
 import java.net.SocketAddress
+import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -21,7 +22,9 @@ class RequestUtil {
                 "SOCKS" -> clientBuilder.proxy(Proxy(Proxy.Type.SOCKS, InetSocketAddress(proxyConfig.ip, proxyConfig.port.toInt())))
                 else -> println("DIRECT")
             }
-            val client = clientBuilder.build()
+            val client = clientBuilder.connectTimeout(7000, TimeUnit.MILLISECONDS)
+                .readTimeout(7000, TimeUnit.MILLISECONDS)
+                .build()
             val req =
                 Request.Builder().url("https://api.statsdb.net/r6/pc/player/${id}")
                     .method("GET", null)
