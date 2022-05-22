@@ -10,7 +10,7 @@ import net.mamoe.mirai.utils.info
 object Rainbow6stats : KotlinPlugin(
     JvmPluginDescription(
         id = "cf.liyu.rainbow6stats",
-        version = "0.2.1",
+        version = "0.3",
     ) {
         author("立羽")
         info("菜鸟彩虹6号围攻战绩查询插件")
