@@ -28,7 +28,7 @@ class JsonUtil {
                 ?.div(it.toDouble())
         }?.times(100)
         struilder.appendLine("${PreviewDescConfig.win + "%.2f".format(win)}%")
-        struilder.appendLine(PreviewDescConfig.rankKD+data.payload.preview[0].value)
+        struilder.appendLine(PreviewDescConfig.rankKD + data.payload.preview[0].value)
         val rankWin = data.payload.stats.ranked.wins.toDouble()
             .div((data.payload.stats.ranked.wins + data.payload.stats.ranked.losses).toDouble()).times(100)
         struilder.appendLine("${PreviewDescConfig.rankWin + "%.2f".format(rankWin)}%")

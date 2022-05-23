@@ -18,6 +18,7 @@ data class PayLoadBean(
 
 data class UserBean(
     val nickname: String,
+    val avatar: String,
     val aliases: List<AliasesBean>
 )
 

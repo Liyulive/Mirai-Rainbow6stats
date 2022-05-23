@@ -23,6 +23,8 @@ object Rainbow6stats : KotlinPlugin(
         HistoryDesc.reload()
         ProxyConfig.reload()
         SeasonDesc.reload()
+        ViewMode.reload()
+
         R6stats.register()
 
         logger.info { "R6Stats Plugin loaded" }

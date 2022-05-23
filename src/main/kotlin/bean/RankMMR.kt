@@ -1,0 +1,63 @@
+package cf.liyu.bean
+
+class RankMMR(val mmr: Int) {
+
+    var rank: String = when (mmr) {
+        0 -> "未定级"
+        in 1..1199 -> "紫铜5"
+        in 1200..1299 -> "紫铜4"
+        in 1300..1399 -> "紫铜3"
+        in 1400..1499 -> "紫铜2"
+        in 1500..1599 -> "紫铜1"
+        in 1600..1699 -> "青铜5"
+        in 1700..1799 -> "青铜4"
+        in 1800..1899 -> "青铜3"
+        in 1900..1999 -> "青铜2"
+        in 2000..2099 -> "青铜1"
+        in 2100..2199 -> "白银5"
+        in 2200..2299 -> "白银4"
+        in 2300..2399 -> "白银3"
+        in 2400..2499 -> "白银2"
+        in 2500..2599 -> "白银1"
+        in 2600..2799 -> "黄金3"
+        in 2800..2999 -> "黄金2"
+        in 3000..3199 -> "黄金1"
+        in 3200..3499 -> "白金3"
+        in 3500..3799 -> "白金2"
+        in 3800..4099 -> "白金1"
+        in 4100..4399 -> "钻石3"
+        in 4400..4699 -> "钻石2"
+        in 4700..4999 -> "钻石1"
+        else -> "冠军"
+    }
+
+    var url: String = when (mmr) {
+        0 -> "rank/silver-1.png"
+        in 1..1199 -> "rank/copper-5.png"
+        in 1200..1299 -> "rank/copper-4.png"
+        in 1300..1399 -> "rank/copper-3.png"
+        in 1400..1499 -> "rank/copper-2.png"
+        in 1500..1599 -> "rank/copper-1.png"
+        in 1600..1699 -> "rank/bronze-5.png"
+        in 1700..1799 -> "rank/bronze-4.png"
+        in 1800..1899 -> "rank/bronze-3.png"
+        in 1900..1999 -> "rank/bronze-2.png"
+        in 2000..2099 -> "rank/bronze-1.png"
+        in 2100..2199 -> "rank/silver-5.png"
+        in 2200..2299 -> "rank/silver-4.png"
+        in 2300..2399 -> "rank/silver-3.png"
+        in 2400..2499 -> "rank/silver-2.png"
+        in 2500..2599 -> "rank/silver-1.png"
+        in 2600..2799 -> "rank/gold-3.png"
+        in 2800..2999 -> "rank/gold-2.png"
+        in 3000..3199 -> "rank/gold-1.png"
+        in 3200..3499 -> "rank/platinum-3.png"
+        in 3500..3799 -> "rank/platinum-2.png"
+        in 3800..4099 -> "rank/platinum-1.png"
+        in 4100..4399 -> "rank/diamond-3.png"
+        in 4400..4699 -> "rank/diamond-2.png"
+        in 4700..4999 -> "rank/diamond-1.png"
+        else -> "冠军"
+    }
+
+}

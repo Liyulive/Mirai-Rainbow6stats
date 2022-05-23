@@ -3,8 +3,10 @@ package cf.liyu.command
 import cf.liyu.Rainbow6stats
 import cf.liyu.bean.HistorySeasonBean
 import cf.liyu.bean.R6Bean
+import cf.liyu.bean.RankMMR
 import cf.liyu.config.CommandConfig
 import cf.liyu.config.Config
+import cf.liyu.config.ViewMode
 import cf.liyu.util.ImgUtil
 import cf.liyu.util.JsonUtil
 import cf.liyu.util.RequestUtil
@@ -30,8 +32,16 @@ object R6stats : CompositeCommand(
             val result = Gson().fromJson(res, R6Bean::class.java)
             when (result.message) {
                 "OK" -> {
-                    val msg = JsonUtil().fuckDataFromId(result)
-                    sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + msg)
+                    if (ViewMode.preview) {
+                        val img = ImgUtil().drawViewById(result)
+                        val imgStream = ImgUtil().bufferedImageToInputStream(img)
+                        if (imgStream != null) {
+                            subject?.sendImage(imgStream, "png")
+                        }
+                    } else {
+                        val msg = JsonUtil().fuckDataFromId(result)
+                        sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + msg)
+                    }
                 }
                 "Not Found" -> sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "查无此人")
                 "Unauthorized" -> sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "API错误")
@@ -116,15 +126,10 @@ object R6stats : CompositeCommand(
                     "/<r6s|r6stats> <sea|season> [昵称] - 本赛季数据\n" +
                     "/<r6s|r6stats> help - 帮助"
         )
+
     }
 
-    @SubCommand("img")
-    suspend fun CommandSender.img() {
-        val img = ImgUtil().drawViewById()
-        val imgStream = ImgUtil().bufferedImageToInputStream(img)
-        if (imgStream != null) {
-            subject?.sendImage(imgStream, "png")
-        }
-    }
+
+
 
 }
