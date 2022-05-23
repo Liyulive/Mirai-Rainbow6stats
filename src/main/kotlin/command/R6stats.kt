@@ -5,6 +5,7 @@ import cf.liyu.bean.HistorySeasonBean
 import cf.liyu.bean.R6Bean
 import cf.liyu.config.CommandConfig
 import cf.liyu.config.Config
+import cf.liyu.util.ImgUtil
 import cf.liyu.util.JsonUtil
 import cf.liyu.util.RequestUtil
 import com.google.gson.Gson
@@ -12,6 +13,7 @@ import com.google.gson.JsonParser
 import net.mamoe.mirai.console.command.CommandSender
 import net.mamoe.mirai.console.command.CommandSenderOnMessage
 import net.mamoe.mirai.console.command.CompositeCommand
+import net.mamoe.mirai.contact.Contact.Companion.sendImage
 import net.mamoe.mirai.message.data.MessageSource.Key.quote
 import java.net.SocketTimeoutException
 
@@ -114,6 +116,15 @@ object R6stats : CompositeCommand(
                     "/<r6s|r6stats> <sea|season> [昵称] - 本赛季数据\n" +
                     "/<r6s|r6stats> help - 帮助"
         )
+    }
+
+    @SubCommand("img")
+    suspend fun CommandSender.img() {
+        val img = ImgUtil().drawViewById()
+        val imgStream = ImgUtil().bufferedImageToInputStream(img)
+        if (imgStream != null) {
+            subject?.sendImage(imgStream, "png")
+        }
     }
 
 }
