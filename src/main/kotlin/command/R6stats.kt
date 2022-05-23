@@ -4,6 +4,7 @@ import cf.liyu.Rainbow6stats
 import cf.liyu.bean.HistorySeasonBean
 import cf.liyu.bean.R6Bean
 import cf.liyu.bean.RankMMR
+import cf.liyu.command.R6stats.his
 import cf.liyu.config.CommandConfig
 import cf.liyu.config.Config
 import cf.liyu.config.ViewMode
@@ -16,7 +17,9 @@ import net.mamoe.mirai.console.command.CommandSender
 import net.mamoe.mirai.console.command.CommandSenderOnMessage
 import net.mamoe.mirai.console.command.CompositeCommand
 import net.mamoe.mirai.contact.Contact.Companion.sendImage
+import net.mamoe.mirai.message.data.At
 import net.mamoe.mirai.message.data.MessageSource.Key.quote
+import net.mamoe.mirai.message.data.content
 import java.net.SocketTimeoutException
 
 object R6stats : CompositeCommand(
@@ -26,6 +29,7 @@ object R6stats : CompositeCommand(
 ) {
 
     @SubCommand("id", "preview")
+    @Description("战绩速览")
     suspend fun CommandSender.id(id: String) {
         try {
             val res = RequestUtil().request(id)
@@ -36,6 +40,7 @@ object R6stats : CompositeCommand(
                         val img = ImgUtil().drawViewById(result)
                         val imgStream = ImgUtil().bufferedImageToInputStream(img)
                         if (imgStream != null) {
+                            sendMessage(At(user!!))
                             subject?.sendImage(imgStream, "png")
                         }
                     } else {
@@ -59,6 +64,7 @@ object R6stats : CompositeCommand(
 
     /*查询排位历史*/
     @SubCommand("his", "history")
+    @Description("查询历史数据")
     suspend fun CommandSender.his(id: String) {
 
         try {
@@ -95,6 +101,7 @@ object R6stats : CompositeCommand(
 
 
     @SubCommand("sea", "seasonal")
+    @Description("查询本赛季数据")
     suspend fun CommandSender.rank(id: String) {
         try {
             val res = RequestUtil().request(id)
