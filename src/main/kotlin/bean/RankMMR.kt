@@ -57,7 +57,7 @@ class RankMMR(val mmr: Int) {
         in 4100..4399 -> "rank/diamond-3.png"
         in 4400..4699 -> "rank/diamond-2.png"
         in 4700..4999 -> "rank/diamond-1.png"
-        else -> "冠军"
+        else -> "rank/champions.png"
     }
 
 }
