@@ -4,6 +4,7 @@
 ## 使用方法
 
 1. 将插件下载放到`plugin`目录下
+1. 下载数据文件放到 `data`目录下
 2. 初次加载后去`config`下配置`Config.yml`（https://developers.statsdb.net/reference 下获取API）
 3. 启动运行
 
@@ -30,9 +31,9 @@
 
 ## Todo
 
-- [ ] 查询排位详情数据
 - [ ] 图片输出数据
 - [ ] ~
+ - [x] 查询排位详情数据
 - [x] 速览数据
 - [x] 本赛季数据
 - [x] 代理
