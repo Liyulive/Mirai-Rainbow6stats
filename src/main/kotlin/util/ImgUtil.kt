@@ -38,7 +38,7 @@ class ImgUtil {
             /*header*/
             color = Color.WHITE
             fillRoundRect(contentMargin, contentMargin, imgWidth - contentMargin * 2, 190, radius, radius)
-            val user = data.payload.user
+            val user = data.payload!!.user
             val avatar =
                 ImageIO.read(URL(user.avatar))
             drawImage(avatar, contentMargin * 2, contentMargin * 2, 100, 100, null)

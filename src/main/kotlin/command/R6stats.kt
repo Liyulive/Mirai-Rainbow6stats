@@ -3,8 +3,6 @@ package cf.liyu.command
 import cf.liyu.Rainbow6stats
 import cf.liyu.bean.HistorySeasonBean
 import cf.liyu.bean.R6Bean
-import cf.liyu.bean.RankMMR
-import cf.liyu.command.R6stats.his
 import cf.liyu.config.CommandConfig
 import cf.liyu.config.Config
 import cf.liyu.config.ViewMode
@@ -19,7 +17,6 @@ import net.mamoe.mirai.console.command.CompositeCommand
 import net.mamoe.mirai.contact.Contact.Companion.sendImage
 import net.mamoe.mirai.message.data.At
 import net.mamoe.mirai.message.data.MessageSource.Key.quote
-import net.mamoe.mirai.message.data.content
 import java.net.SocketTimeoutException
 
 object R6stats : CompositeCommand(
@@ -31,9 +28,26 @@ object R6stats : CompositeCommand(
     @SubCommand("id", "preview")
     @Description("战绩速览")
     suspend fun CommandSender.id(id: String) {
-        try {
-            val res = RequestUtil().request(id)
-            val result = Gson().fromJson(res, R6Bean::class.java)
+        var result = R6Bean(0, "0", "0", null)
+        var flg = 0
+        sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "正在查询，请稍等")
+        do {
+            flg++
+            try {
+                val res = RequestUtil().request(id)
+                result = Gson().fromJson(res, R6Bean::class.java)
+            } catch (e: SocketTimeoutException) {
+                println("连接超时，重试次数：$flg")
+                e.printStackTrace()
+            } catch (e: Exception) {
+                bot?.getFriend(Config.master)?.sendMessage(e.toString())
+                e.printStackTrace()
+            }
+        } while ((result.code == 0) or (flg == 5))
+
+        if (flg == 5) {
+            sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "寄，请重试。")
+        } else {
             when (result.message) {
                 "OK" -> {
                     if (ViewMode.preview) {
@@ -52,13 +66,6 @@ object R6stats : CompositeCommand(
                 "Unauthorized" -> sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "API错误")
                 else -> sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "未知错误")
             }
-
-        } catch (e: SocketTimeoutException) {
-            sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "连接超时，请重试")
-            e.printStackTrace()
-        } catch (e: Exception) {
-            bot?.getFriend(Config.master)?.sendMessage(e.toString())
-            e.printStackTrace()
         }
     }
 
@@ -108,7 +115,7 @@ object R6stats : CompositeCommand(
             val result = Gson().fromJson(res, R6Bean::class.java)
             when (result.message) {
                 "OK" -> {
-                    val msg = JsonUtil().fuckDataFromSeason(result.payload.stats.seasonal)
+                    val msg = JsonUtil().fuckDataFromSeason(result.payload!!.stats.seasonal)
                     sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + msg)
                 }
                 "Not Found" -> sendMessage((this as CommandSenderOnMessage<*>).fromEvent.source.quote() + "查无此人")

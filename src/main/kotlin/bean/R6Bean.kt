@@ -6,7 +6,7 @@ data class R6Bean(
     val code: Int,
     val message: String,
     val error: String,
-    val payload: PayLoadBean
+    val payload: PayLoadBean?
 )
 
 data class PayLoadBean(

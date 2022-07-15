@@ -14,7 +14,7 @@ import java.util.*
 class JsonUtil {
     fun fuckDataFromId(data: R6Bean): String {
         val struilder = StringBuilder()
-        struilder.appendLine(PreviewDescConfig.nickname + data.payload.user.nickname)
+        struilder.appendLine(PreviewDescConfig.nickname + data.payload!!.user.nickname)
         struilder.append(PreviewDescConfig.used_name)
         data.payload.user.aliases.forEach {
             struilder.append(it.nickname + " ")
